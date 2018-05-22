@@ -1,0 +1,230 @@
+
+h1 {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 26.4px;
+}
+h2 {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 15.4px;
+}
+h3 {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 15.4px;
+}
+p {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+blockquote {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 21px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 30px;
+}
+pre {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 18.5714px;
+}
+
+ul {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 18.5714px;
+}
+body {
+  /*
+  font: 10px sans-serif;
+  */
+  margin: 10px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: 0.9;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.linebis {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: 0.9;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.tick line {
+  fill: none;
+  stroke: #222; 
+  stroke-width:1px;
+  stroke-opacity: 0.3;
+  shape-rendering: crispEdges;
+}
+
+.months line {
+  stroke: #000; 
+  stroke-width:1.5px;
+  stroke-opacity: 0.6;
+  shape-rendering: crispEdges;
+}
+
+.months text {
+  font-size: 30px;
+}
+
+.weekend {
+  fill: #eee;
+  opacity: 0.7;
+}
+/*
+div {
+  width: 100%;
+}
+*/
+div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 60px;          
+    height: 28px;         
+    padding: 2px;       
+    font: 12px sans-serif;    
+    background: lightsteelblue; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
+}
+
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+/* ["#d7191c","#fdae61","#a6d96a","#1a9641"] 
+["#d7191c","#fdae61","#ffffbf","#a6d96a","#1a9641"]
+["#d73027","#fc8d59","#fee08b","#d9ef8b","#91cf60","#1a9850"]
+["#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850"]
+["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#ffffbf","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"]
+*/
+
+.arear {
+  fill: #d73027;
+  fill-opacity: 0.9;
+  clip-path: url(#clip);
+}
+
+.areao {
+  fill: #fdae61;
+  fill-opacity: 0.7;
+  clip-path: url(#clip);
+}
+
+.areab {
+  fill: #91cf60; /*PaleGreen; */
+  fill-opacity: 0.8;
+  clip-path: url(#clip);
+}
+
+.areag {
+  fill: #1a9850; /*PaleGreen; */
+  fill-opacity: 0.5;
+  clip-path: url(#clip);
+}
+
+
+.line2 {
+  fill: grey;
+  clip-path: url(#clip);
+}
+
+
+.numericCol {
+  text-align : right;
+}
+
+
+.selectedRow td {
+  background-color: #4685cf !important;
+  color: #fff;
+}
+
+.dt-rowReorder-float {
+  background-color: #4685cf !important;
+  color: #fff;
+}
+
+
+.modal {
+  max-height: 90%;
+  max-width: 50%;
+}
+
+.modal-form-row {
+  margin-bottom: 0px;
+}
+
+.none {
+  display: none;
+}
+
+
+
+.file-path-wrapper {
+  width: 300px;
+  height: 50px;
+}
+
+.row {
+  margin-bottom: 0px;
+}
+
+.section {
+  padding: 0px;
+}
+
+
+html {
+  line-height: 1;
+}
