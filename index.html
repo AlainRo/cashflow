@@ -1,1 +1,234 @@
-<h1> Hello World </h1>
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head> 
+ <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+ <link href="materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+ <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+ <link href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+ <link rel="stylesheet" href="treso.css" type="text/css"/> 
+<!--
+ <link rel="stylesheet" href="index.css" type="text/css"/>
+-->
+ <!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//sandbox.innocraft.cloud/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+</head>
+
+<body>
+
+
+ <main>
+    <div class="section" id="zdrop">
+      <div class="row">
+        <a class="waves-effect waves-teal btn-flat right modal-trigger" onclick="shownumb()" href="#modal2">Exporter</a>
+        <a class="waves-effect waves-teal btn-flat right" onclick="showhelp()">Aide</a>
+
+          <div class="file-field input-field pull-s6" >
+            <div class="btn-flat left">
+              <span>Fichier</span>
+              <input type="file" id="fileInput"> 
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Glisser déposer un csv, xls ou xlsx">
+            </div>
+          </div>
+
+      </div>
+      <div class="row">
+          <div class="col s12 center"> 
+              <span id="sleep"></span>
+              [
+              <span id="min">0</span>
+              ,
+              <span id="max">0</span>
+              ]
+              <span><strong> sur la période </strong>
+              <small id="debut"></small>
+              <small>au</small>
+              <small id="fin"></small ></span>
+
+          </div>
+      </div>
+      <div class="row">
+
+        <div class="col s12 m6 l5">  
+          <table id ="table" class="compact row-border order-column nowrap" cellspacing="0" width="100%">
+          </table>
+        </div>  
+
+        <div class="col s12 m6 l7">
+          <div id="zone"></div>
+          <div id="bars"></div>
+          <div id="context"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>  
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Importation réussie</h4>
+
+      <div class="row">
+        <form class="col s12">
+          <div class="row summary">
+
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="solde" type="number" class="validate" value="0">
+              <label for="solde">Solde bancaire initial à la date du fichier</label>
+            </div>
+          </div>   
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="decouvert" type="number" class="validate" value="-2000"></textarea>
+              <label for="decouvert">Autorisation de découvert</label>
+            </div>
+            <div class="input-field col s6">
+               <input type="text" id="today" class="datepicker">
+              <label for="today">Date du solde bancaire</label>
+            </div>
+          </div>             
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+  </div>
+
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <h4>Exporter la simulation</h4>
+      <div class="row">
+        <span>Vous avez effectué </span><span id="deplac"></span><span> déplacements</span>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat" id="export">Exporter</a>
+    </div>
+  </div>
+
+ <div id="modal3" class="modal">
+    <div class="modal-content">
+      <h4>Impossible de lire le fichier</h4>
+      <div class="row">
+        <span>Le fichier doit être au format csv (séparateur 'point virgule'), xls ou xlsx). Il doit contenir trois colonnes:</span>
+        <br>
+        <br>
+        <img src="Table.jpeg" class="responsive-img">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat" id="export">OK</a>
+    </div>
+  </div>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+<!-- inutil si données passées directement -->
+<script src="bundle.js"></script>
+<script>
+
+function showhelp() {
+  window.open("http://perceptible.fr/sandbox/tresorerie/readme.html","Aide de la trésorerie");
+}
+
+function shownumb() {
+    d3.select('#deplac').html(StackOfMoves.length);
+}
+
+var StackOfMoves = [];
+var json;
+
+function moveProvisional(invoiceId, newDate, oldDate){
+// This is the right place to have a first rough estimate of the consequences without any permanent server update
+  let invoices = null;
+  return invoices;  // in the same format as data
+  // if null the computation is made locally without any smart side-effect as TVA or else
+}
+
+
+function moveConfirmation(invoiceId, newDate, oldDate){
+// This is the right place to make sure that computation is € accurate and propagated to the database
+  StackOfMoves.push({invoice: invoiceId, newdate: newDate, olddate: oldDate});
+  let invoices = null;
+  return invoices;  // in the same format as data
+  // if null the computation is made by locally without any smart side-effect as TVA or else
+}
+
+
+function moveCommand(invoiceId, newDate){
+// Execute a move on the current data
+  EntryPoint.move(invoiceId, newDate);
+}
+
+
+function modalcancel() {
+
+};
+
+
+function modalclose() {
+  EntryPoint.tresoChart(json, {solde: (+solde.value) || 0, date: today.value, decouvert: (-Math.abs(+decouvert.value) || 0)});
+};
+
+
+
+
+function processNewFile(data) {
+  json = data.data;
+  if (data.check) {
+    $('#modal3').modal('open');
+    return
+  }
+  let nb = json.length;
+  let header = Object.keys(json[0]);
+  let picker = $('.datepicker').pickadate().pickadate('picker');
+  picker.set('select', new Date());
+  d3.select('#decouvert').property('value',"-2000");
+  d3.select('#solde').property('value',"0");
+  $('#modal1').modal('open');
+  d3.select('.summary').html(nb + ' lignes.'); // + header);
+}
+
+</script>
+<script type="text/javascript" src="//unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+
+<script>
+  d3.text("./frdata2.csv", function(error, data) {
+    if (error) throw error;
+    json = EntryPoint.parsecsv(data).data;
+    EntryPoint.tresoChart(json, {solde: 3000, date: "01/10/2017", "decouvert": -5000});
+  });
+/*
+
+*/
+</script>
+
+</body>
+</html>
